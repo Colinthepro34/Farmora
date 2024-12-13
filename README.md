@@ -1,4 +1,4 @@
-Farmora
+
 Farmora is a secure and user-friendly web platform designed to connect farmers directly with potential buyers, including both retail and wholesale clients. Built with a focus on simplicity and accessibility, Farmora aims to empower farmers by providing a seamless online marketplace to showcase and sell their products.
  Problem Statement
 In many regions, farmers face challenges in connecting directly with buyers due to a lack of accessible platforms. Middlemen often dominate the supply chain, leading to reduced profits for farmers and inflated costs for buyers. Additionally, existing marketplaces are often complex and not designed with farmers' needs in mind, limiting their usability. There is a need for a simple, secure, and efficient solution to bridge this gap, enabling farmers to showcase their products directly to buyers and retain a larger share of their earnings.
