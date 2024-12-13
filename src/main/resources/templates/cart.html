@@ -1,0 +1,268 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.11.2/css/all.css">
+
+    <title>Cart</title>
+    <style>
+        :root {
+            --primary-color: #2C3639;    /* Dark Blue-Gray */
+            --secondary-color: #3F4E4F;  /* Muted Teal */
+            --accent-color: #A27B5C;     /* Warm Brown */
+            --light-color: #DCD7C9;      /* Cream */
+            --white: #FFFFFF;
+        }
+
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--primary-color);
+            color: var(--light-color);
+        }
+
+        .navbar {
+            background-color: var(--primary-color);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        .navbar-nav .nav-link {
+            color: var(--light-color) !important;
+            font-weight: 500;
+            padding: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .navbar-nav .nav-link:hover {
+            color: var(--accent-color) !important;
+        }
+
+        .bg-video {
+            position: fixed;
+            top: 0;
+            left: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+            object-fit: cover;
+            opacity: 0.8;
+        }
+
+        .cart-item {
+            background-color: var(--secondary-color);
+            border: none;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            color: var(--light-color);
+            transition: transform 0.3s ease;
+        }
+
+        .cart-item:hover {
+            transform: translateY(-5px);
+        }
+
+        .cart-item img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        .card {
+            background-color: var(--secondary-color);
+            border: none;
+            border-radius: 10px;
+            color: var(--light-color);
+        }
+
+        .list-group-item {
+            background-color: var(--secondary-color);
+            border-color: var(--accent-color);
+            color: var(--light-color);
+        }
+
+        .btn-custom {
+            background-color: var(--accent-color);
+            color: var(--light-color);
+            font-weight: 600;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-custom:hover {
+            background-color: var(--light-color);
+            color: var(--accent-color);
+            transform: translateY(-2px);
+        }
+
+        .discount-code input {
+            background-color: var(--primary-color);
+            border: 1px solid var(--accent-color);
+            color: var(--light-color);
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .discount-code input:focus {
+            border-color: var(--light-color);
+            outline: none;
+        }
+
+        .dark-grey-text {
+            color: var(--light-color) !important;
+            text-decoration: none;
+        }
+
+        .card-link-secondary {
+            color: var(--accent-color);
+            transition: color 0.3s ease;
+        }
+
+        .card-link-secondary:hover {
+            color: var(--light-color);
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<!-- Background Image -->
+<img class="bg-video" th:src="@{/images/Background.png}" src="../static/images/Background.png" />
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">
+            <img th:src="@{/images/logo.png}" src="../static/images/logo.png" width="auto" height="40"
+                 class="d-inline-block align-top" alt=""/>
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto"></ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/}" href="index.html"><i class="fas fa-home"></i> Home</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/shop}" href="shop.html"><i class="fas fa-store"></i> Shop</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" sec:authorize="isAnonymous()" th:href="@{/login}" href="login.html"><i class="fas fa-sign-in-alt"></i> Login</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" sec:authorize="isAuthenticated()" th:href="@{/logout}" href="login.html"><i class="fas fa-sign-out-alt"></i> Logout</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" th:href="@{/cart}" href="cart.html"><i class="fas fa-shopping-cart"></i> Cart</a>
+                </li>
+                <li class="nav-item">
+                    <span class="nav-link" th:text="${cartCount}">0</span>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<main class="container mt-5 pt-5">
+    <section class="mt-5 mb-4">
+        <div class="row">
+            <!-- Cart Items Section -->
+            <div class="col-lg-8">
+                <div class="card wish-list mb-4">
+                    <div class="card-body">
+                        <h5 class="mb-4">Cart (<span th:text="${cartCount}">2</span> items)</h5>
+
+                        <div class="row mb-4 cart-item" th:each="item, iStat : ${cart}">
+                            <div class="col-md-5 col-lg-3 col-xl-3">
+                                <img class="img-fluid w-100"
+                                     th:src="@{${'/productImages/' + item.imageName}}"
+                                     src="https://mdbootstrap.com/img/Photos/Horizontal/E-commerce/Vertical/12a.jpg"
+                                     alt="Sample">
+                            </div>
+                            <div class="col-md-7 col-lg-9 col-xl-9">
+                                <div>
+                                    <h5 th:text="${item.name}">Product Name</h5>
+                                    <p class="mb-3">Weight: <span th:text="${item.weight}"></span> grams</p>
+                                    <p class="text-right"><strong>₹<span th:text="${item.price}"></span></strong></p>
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <a href="#!" th:href="@{/cart/removeItem/{index}(index=${iStat.index})}"
+                                           class="card-link-secondary small text-uppercase"><i class="fas fa-trash-alt mr-1"></i>
+                                            Remove item</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <hr class="mb-4">
+                        <p class="text-primary mb-0"><i class="fas fa-info-circle mr-1"></i> Adding items to your cart does
+                            not reserve them.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Summary Section -->
+            <div class="col-lg-4">
+                <div class="card mb-4">
+                    <div class="card-body">
+                        <h5>The total amount</h5>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item d-flex justify-content-between">
+                                Amount Payable <span>₹<span th:text="${total}"></span></span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                Shipping <span>Free</span>
+                            </li>
+                            <li class="list-group-item d-flex justify-content-between">
+                                <strong>Total (including VAT)</strong> <span><strong>₹<span th:text="${total}"></span></strong></span>
+                            </li>
+                        </ul>
+                        <a th:href="@{/checkout}"  href="orderPlaced.html" class="btn btn-custom btn-block">Go to checkout</a>
+                    </div>
+                </div>
+
+                <!-- Discount Section -->
+                <div class="card mb-4">
+                    <div class="card-body discount-code">
+                        <a class="dark-grey-text d-flex justify-content-between" data-toggle="collapse"
+                           href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                            Add a discount code (optional)
+                            <span><i class="fas fa-chevron-down pt-1"></i></span>
+                        </a>
+                        <div class="collapse" id="collapseExample">
+                            <div class="mt-3">
+                                <input type="text" id="discount-code" class="form-control" placeholder="Enter discount code">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+        integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous"></script>
+</body>
+</html>
